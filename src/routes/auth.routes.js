@@ -7,5 +7,5 @@ import { verifySignup } from "../middlewares";
 
 
 router.post('/signin', authCtrl.signIn)
-router.post('/signup',[verifySignup.checkDuplicatedUsernameOrEmail, verifySignup.checRolesExisted] , authCtrl.signUp)
+router.post('/signup',[verifySignup.checkDuplicatedUsernameOrEmail, verifySignup.checRolesExisted, verifySignup.checRolesIsNot] , authCtrl.signUp)
 export default router;

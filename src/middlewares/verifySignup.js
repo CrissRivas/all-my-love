@@ -15,18 +15,23 @@ export const checkDuplicatedUsernameOrEmail = async ( req,res,next)=>{
 
 }
 
+export const checRolesIsNot = (req,res,next) =>{
+    if(req.body.roles == "soporte"|| req.body.roles == "ConejoCyberpunk" ){
+return res.status(400).json({message: "Espero que seas de sombrero blanco"})}
+    next();
+}
 
 
 
-export const checRolesExisted = (req,res, next) =>{
+
+export const checRolesExisted = (req,res,next) =>{
     if(req.body.roles){
-        for(let i= 0; req.body.roles.length; i++){
+        for(let i= 0; i < req.body.roles.length; i++){
             if(!ROLES.includes(req.body.roles[i])){
                 return res.status(400).json({
-                    message: ` Rol de ${req.body.roles[i]}, no existe, favor de no hacer cosas ilegales aqui `
-                })
+                    message: ` Rol de ${req.body.roles[i]}, no existe, favor de no hacer cosas ilegales aqui `})
             }
         }
     }
     next();
-} 
+}
