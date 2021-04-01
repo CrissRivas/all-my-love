@@ -1,3 +1,7 @@
+import {config} from "dotenv";
+config();
+
 export default{
-    SECRET: 'RVAGCR97080205H400'
+    mongodbURL: process.env.MONGODB_URI,
+    SECRET: process.env.SECRETO
 }

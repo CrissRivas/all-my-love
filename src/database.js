@@ -1,6 +1,7 @@
 import mongoose, { mongo } from 'mongoose'
+import config from "./config";
 
-mongoose.connect("mongodb://localhost/api-automata",{ 
+mongoose.connect(config.mongodbURL,{ 
     useNewUrlParser: true, 
     useUnifiedTopology: true,
     useFindAndModify: true,
