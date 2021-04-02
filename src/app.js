@@ -3,7 +3,7 @@ import morgan from 'morgan'
 import pkg from '../package.json'
 import cors from 'cors'
 import {createRoles}  from "./libs/inicioSetup"
-
+import helmet from "helmet";
 
 import productsRoutes from './routes/products.routes'
 import authRoutes from './routes/auth.routes'
@@ -11,6 +11,7 @@ import userRoutes from './routes/user.routes'
 const app = express();
 createRoles();
 app.use(morgan('dev'));
+app.use(helmet());
 app.use(cors());
 app.set('pkg',pkg);
 app.use(express.json());
