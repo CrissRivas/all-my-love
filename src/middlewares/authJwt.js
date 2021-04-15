@@ -14,6 +14,7 @@ export const verifyToken = async (req,res, next) => {
     req.userId = decoded.id;
     const user = await User.findById(req.userId,{password: 0} )
     if(!user) return res.status(404).json({ message: 'Usuario no encontrado'})
+    if(!user.verify) return res.status(404).json({ message: 'Necesitas verificar tu correo'})
     next()
     } catch (error) {
         return res.status(401).json({message: 'No pasaras!'})
@@ -61,4 +62,14 @@ export const isConejo = async (req,res,next) =>{
     
     return res.status(403).json({message: "Sólo el elegido poderoso puede hacer esto"})
  
+}
+
+
+export const verificado = async(req,res,next)=>{
+
+    const email = await User.findOne({email: req.body.email},{password: 0})
+    if(!email.verify) return res.status(400).json({message: "el correo no esta verificado"})
+
+    next();
+
 }

@@ -18,7 +18,8 @@ const userSchema = new Schema({
     roles:[{
         ref: "Role",
         type:Schema.Types.ObjectId
-    }]
+    }],
+    verify: Boolean
 },{
     timestamps: true,
     versionKey: false

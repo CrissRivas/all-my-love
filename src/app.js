@@ -8,6 +8,9 @@ import helmet from "helmet";
 import productsRoutes from './routes/products.routes'
 import authRoutes from './routes/auth.routes'
 import userRoutes from './routes/user.routes'
+import artistaRoutes from './routes/artista.routes'
+
+
 const app = express();
 createRoles();
 app.use(morgan('dev'));
@@ -30,6 +33,8 @@ app.use('/api/productos',productsRoutes)
 app.use('/api/auth',authRoutes)
 
 app.use('/api/user',userRoutes)
+
+app.use('/api/artista',artistaRoutes)
 
 
 export default app;
