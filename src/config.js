@@ -3,5 +3,8 @@ config();
 
 export default{
     mongodbURL: process.env.MONGODB_URI,
-    SECRET: process.env.SECRETO
+    SECRET: process.env.SECRETO,
+    PASS_CORREO: process.env.PASS_CORREO,
+    HOST_CORREO: process.env.HOST_CORREO,
+    PORT_CORREO: process.env.PORT_CORREO
 }

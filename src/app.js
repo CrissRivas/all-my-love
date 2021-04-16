@@ -9,6 +9,7 @@ import productsRoutes from './routes/products.routes'
 import authRoutes from './routes/auth.routes'
 import userRoutes from './routes/user.routes'
 import artistaRoutes from './routes/artista.routes'
+import inicioRoutes from './routes/inicio.routes'
 
 
 const app = express();
@@ -36,5 +37,6 @@ app.use('/api/user',userRoutes)
 
 app.use('/api/artista',artistaRoutes)
 
+app.use('/api/inicio',inicioRoutes)
 
 export default app;

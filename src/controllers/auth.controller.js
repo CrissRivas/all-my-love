@@ -12,18 +12,10 @@ export const signUp = async (req,res) => {
         username,
         email,
         password: await User.encryptPassword(password),
-        roles: '605fa4d617f3bf37305b7ad9',
         verify: false
     })
-   
-
-    // if(roles){
-    //    const foundRoles = await Role.find({name: {$in: roles} })
-    //    newUser.roles = foundRoles.map(role => role._id)
-    // }else{
-    //     const role = await Role.findOne({name: 'comprador'})
-    //     newUser.roles = [role.id];
-    // }
+    const role = await Role.findOne({name: 'comprador'})
+    newUser.roles = [role.id];
 
    
     const savedUser = await newUser.save()
@@ -35,12 +27,12 @@ export const signUp = async (req,res) => {
 
 
     const transporter = nodemailer.createTransport({
-        host: 'smtp.hostinger.mx',
-        port: 587,
+        host: config.HOST_CORREO,
+        port: config.PORT_CORREO,
         secure: false,
         auth: {
-            user: 'hola@conejo-cyberpunk.xyz',
-            pass: 'c8P>=yH3A#'
+            user: 'hola@automataerrante.com',
+            pass: config.PASS_CORREO
         },
         tls: {
             rejectUnautorized: false
@@ -48,7 +40,7 @@ export const signUp = async (req,res) => {
     });
 
     const info = await transporter.sendMail({
-        from: "'Autómata errante' <hola@conejo-cyberpunk.xyz>",
+        from: "'Autómata errante' <hola@automataerrante.com>",
         to: email,
         subject: "verificacion de correo",
         text: "http://localhost:4000/api/auth/signup/"+token
@@ -76,6 +68,8 @@ export const verifyEmail = async (req,res) => {
 try {
     const token = req.params.userPass;
     const decoded =  jwt.verify(token,config.SECRET)
+    console.log(decoded); 
+    
     console.log(decoded);    
     req.userId = decoded.id;
     const user = await User.findById(req.userId,{password: 0} )
@@ -84,7 +78,8 @@ try {
     await User.findByIdAndUpdate(req.userId, user)
     res.status(200).json({message: "usuario verificado con exito"})
 } catch (error) {
-    
+    console.log(error);
+    return res.status(400).json({message: 'Token expirado'})
 }
 
 }
