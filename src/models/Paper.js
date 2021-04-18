@@ -1,15 +1,16 @@
 import {Schema, model} from 'mongoose'
 
-const inicioSchema = new Schema({
+const paperSchema = new Schema({
    encabezado: String,
+   descripcion: String,
    img: [String],
    texto: String,
    tags: [String],
-   stars: number,
-   votos: number
+   stars: Number,
+   votos: Number
 },{
     timestamps: true,
     versionKey: false
 })
 
-export default model('Inicio', inicioSchema)
+export default model('Paper', paperSchema)
