@@ -46,7 +46,7 @@ export const putPaper = async (req,res) => {
 export const deletePaper = async (req,res) => {
     try {
         await Paper.findOneAndDelete({_id : req.params.id})
-        res.status(201).json({nessaje: "Paper borrado"})
+        res.status(201).json({messaje: "Paper borrado"})
        
     } catch (error) {
          console.log(error);
