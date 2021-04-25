@@ -1,10 +1,13 @@
 import {Router} from 'express'
 import *as paperCtrl from "../controllers/paper.controller";
-//import {authJwt, verifySignup} from "../middlewares";
+import {authJwt, verifySignup} from "../middlewares";
+import upload from "../libs/multer";
+
+
 
 const router = Router()
 
-router.post('/', paperCtrl.createPaper)
+router.post('/', upload.single('image') ,paperCtrl.createPaper)
 
 router.get('/', paperCtrl.getPapers)
 
