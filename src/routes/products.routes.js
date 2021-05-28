@@ -12,7 +12,8 @@ router.post('/', productsCtrl.createProduct)
 
 router.get('/:productId', productsCtrl.getProductById)
 
-router.put('/:productId', [authJwt.verifyToken, authJwt.isVendedor], productsCtrl.updateProductById)
+//router.put('/:productId', [authJwt.verifyToken, authJwt.isVendedor], productsCtrl.updateProductById)
+router.put('/:productId', productsCtrl.updateProductById)
 
 router.delete('/:productId', [authJwt.verifyToken, authJwt.isVendedor], productsCtrl.deleteProductById)
 

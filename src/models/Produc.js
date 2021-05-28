@@ -8,6 +8,7 @@ const productSchema = new Schema({
     descripcion: String,
     descripcionCorta: String,
     engranes: Number,
+    tags: [String],
     precio: Number,
     imgUrl: [String],
     inventario: Number,
