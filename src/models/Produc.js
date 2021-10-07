@@ -12,7 +12,8 @@ const productSchema = new Schema({
     precio: Number,
     imgUrl: [String],
     inventario: Number,
-    proveedor: String
+    proveedor: String,
+    casa: String
 }, {
     timestamps: true,
     versionKey: false
