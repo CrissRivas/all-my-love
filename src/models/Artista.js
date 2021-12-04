@@ -1,4 +1,4 @@
-import {Schema, model} from 'mongoose'
+import { Schema, model } from 'mongoose'
 
 const artistaSchema = new Schema({
     nombre: {
@@ -7,6 +7,11 @@ const artistaSchema = new Schema({
     },
     imgPerfil: String,
     descripcion: String,
+    descripcionCorta: String,
+    frase: String,
+    liston: String,
+    premio: String,
+    posicion: Number,
     estado: String,
     redes: [String],
     imgPortada: String,
@@ -17,9 +22,10 @@ const artistaSchema = new Schema({
     casa: String,
     rango: String,
     artRecomendado: [String],
-    comicRecomendado: [String]
-    
-},{
+    comicRecomendado: [String],
+
+
+}, {
     timestamps: true,
     versionKey: false
 })
