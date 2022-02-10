@@ -1,6 +1,6 @@
-import {Schema, model} from 'mongoose'
-
-import bcrypt  from "bcryptjs"
+import { Schema, model } from 'mongoose'
+import Product from "../models/Produc"
+import bcrypt from "bcryptjs"
 
 const userSchema = new Schema({
     username: {
@@ -11,28 +11,34 @@ const userSchema = new Schema({
         type: String,
         unique: true
     },
-    password:{
-        type:String,
+    password: {
+        type: String,
         required: true
     },
-    roles:[{
+    roles: [{
         ref: "Role",
-        type:Schema.Types.ObjectId
+        type: Schema.Types.ObjectId
     }],
-    verify: Boolean
-},{
+    verify: Boolean,
+    Kart: [String],
+    artista: {
+        ref: "Artista",
+        type: Schema.Types.ObjectId,
+        required: false
+    }
+}, {
     timestamps: true,
     versionKey: false
 });
 
-userSchema.statics.encryptPassword = async (password) =>{
-const salt = await bcrypt.genSalt(10)
-return await bcrypt.hash(password, salt)
+userSchema.statics.encryptPassword = async(password) => {
+    const salt = await bcrypt.genSalt(10)
+    return await bcrypt.hash(password, salt)
 }
 
 
-userSchema.statics.comparePassword = async (password, recivedPassword) =>{
+userSchema.statics.comparePassword = async(password, recivedPassword) => {
     return await bcrypt.compare(password, recivedPassword)
 }
 
-export default model('User',userSchema);
+export default model('User', userSchema);

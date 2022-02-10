@@ -1,17 +1,26 @@
 import Product from "../models/Produc"
-
+import User from "../models/User"
+import Artista from "../models/Artista"
 
 export const createProduct = async(req, res) => {
 
     try {
+        const user = await User.findById(req.userId, { password: 0 })
+
+        const artista = await Artista.findById(user.artista)
+
         const newProduct = new Product(req.body);
 
         const productSaved = await newProduct.save()
 
+        artista.comics.push(newProduct._id)
+
+        const newArtista = await Artista.findByIdAndUpdate(user.artista, artista, { new: true })
+
         res.status(201).json(productSaved)
 
     } catch (error) {
-        res.status(401).json({ message: " sucedio algo inesperado, intente despues." })
+        res.status(401).json(error)
     }
 }
 
@@ -26,15 +35,19 @@ export const getProducts = async(req, res) => {
         res.status(401).json({ message: "sucedio algo inesperado, intente despues." })
     }
 }
-export const getProductById = async(req, res) => {
+export const getProductByName = async(req, res) => {
     try {
 
-        const producto = await Product.findById(req.params.productId)
+        const producto = await Product.findOne({ nombreId: req.params.productName })
+        if (producto == null) {
+            res.status(404).json({ message: "El cómic ha sido eliminado de la faz de la tierra o nunca existio." })
+        } else {
+            res.status(201).json(producto)
+        }
 
-        res.status(201).json(producto)
 
     } catch (error) {
-        res.status(401).json({ message: " sucedio algo inesperado, intente despues." })
+        res.status(400).json(error)
 
     }
 }
@@ -51,11 +64,28 @@ export const updateProductById = async(req, res) => {
 }
 
 
+
 export const deleteProductById = async(req, res) => {
     try {
-        await Product.findByIdAndDelete(req.params.productId)
 
-        res.status(204).json()
+        const user = await User.findById(req.userId, { password: 0 })
+
+        const artista = await Artista.findById(user.artista)
+
+
+        if (artista.comics.includes(req.params.productId)) {
+            artista.comics.forEach((element, index) => {
+                if (element == req.params.productId) {
+                    artista.comics.splice(index, 1)
+                }
+            });
+            await Artista.findByIdAndUpdate(artista._id, artista, { new: true })
+            await Product.findByIdAndDelete(req.params.productId)
+            res.status(201).json({ message: "All OK" })
+        } else {
+            res.status(201).json({ message: "Ya no esta en la lista" })
+        }
+
     } catch (error) {
         res.status(401).json({ message: " sucedio algo inesperado, intente despues." })
     }

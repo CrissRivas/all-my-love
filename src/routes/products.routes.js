@@ -6,14 +6,12 @@ import { authJwt } from "../middlewares"
 
 router.get('/', productsCtrl.getProducts)
 
-//router.post('/',[authJwt.verifyToken, authJwt.isVendedor] , productsCtrl.createProduct)
 
-router.post('/', productsCtrl.createProduct)
+router.post('/', [authJwt.verifyToken, authJwt.isVendedor], productsCtrl.createProduct)
 
-router.get('/:productId', productsCtrl.getProductById)
+router.get('/:productName', productsCtrl.getProductByName)
 
-//router.put('/:productId', [authJwt.verifyToken, authJwt.isVendedor], productsCtrl.updateProductById)
-router.put('/:productId', productsCtrl.updateProductById)
+router.put('/:productId', [authJwt.verifyToken, authJwt.isVendedor], productsCtrl.updateProductById)
 
 router.delete('/:productId', [authJwt.verifyToken, authJwt.isVendedor], productsCtrl.deleteProductById)
 

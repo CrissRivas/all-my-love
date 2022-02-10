@@ -12,6 +12,7 @@
   "author": "ConejoCyberpunk",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.25.0",
     "bcryptjs": "^2.4.3",
     "conekta": "^1.6.5",
     "cors": "^2.8.5",

@@ -3,7 +3,13 @@ import { Schema, model } from 'mongoose'
 const artistaSchema = new Schema({
     nombre: {
         type: String,
-        unique: true
+        unique: true,
+        required: true
+    },
+    nombreId: {
+        type: String,
+        unique: true,
+        required: true
     },
     imgPerfil: String,
     descripcion: String,
@@ -13,18 +19,25 @@ const artistaSchema = new Schema({
     premio: String,
     posicion: Number,
     estado: String,
-    redes: [String],
+    redes: { instagram: String, facebook: String, twitter: String, devianArt: String },
     imgPortada: String,
     imgFondo: String,
-    comics: [String],
+    comics: [{
+        ref: "Product",
+        type: Schema.Types.ObjectId
+    }],
     tags: [String],
     seguidores: Number,
     casa: String,
     rango: String,
     artRecomendado: [String],
     comicRecomendado: [String],
-
-
+    verifyArtist: Boolean,
+    origin: {
+        ref: "Origin",
+        type: Schema.Types.ObjectId,
+        required: false
+    }
 }, {
     timestamps: true,
     versionKey: false

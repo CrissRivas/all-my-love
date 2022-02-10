@@ -12,6 +12,8 @@ import artistaRoutes from './routes/artista.routes'
 import inicioRoutes from './routes/inicio.routes'
 import paperRoutes from './routes/paper.routes'
 import shotRoutes from './routes/shot.routes'
+import originRoutes from './routes/origin.routes'
+import enviosRoutes from './routes/envios.routes'
 
 const app = express();
 createRoles();
@@ -43,5 +45,9 @@ app.use('/api/inicio', inicioRoutes)
 app.use('/api/paper', paperRoutes)
 
 app.use('/api/shot', shotRoutes)
+
+app.use('/api/origin', originRoutes)
+
+app.use('/api/envios', enviosRoutes)
 
 export default app;
