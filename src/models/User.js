@@ -21,6 +21,7 @@ const userSchema = new Schema({
     }],
     verify: Boolean,
     Kart: [String],
+    love: [String],
     artista: {
         ref: "Artista",
         type: Schema.Types.ObjectId,

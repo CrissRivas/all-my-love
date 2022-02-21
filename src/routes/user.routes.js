@@ -8,7 +8,11 @@ router.post('/kart/:comicId', authJwt.verifyToken, userCtrl.addKartUser)
 
 router.delete('/kart/:comicId', authJwt.verifyToken, userCtrl.deleteKartUser)
 
+router.post('/', [authJwt.verifyToken], userCtrl.getUser)
 
-router.get('/', [authJwt.verifyToken], userCtrl.getUser)
+router.post('/love/:comicId', [authJwt.verifyToken], userCtrl.giveLove)
+
+router.delete('/love/:comicId', authJwt.verifyToken, userCtrl.takeLove)
+
 
 export default router;

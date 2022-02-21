@@ -7,6 +7,7 @@ export const verifyToken = async(req, res, next) => {
     try {
 
         const token = req.headers["authorization"];
+
         if (!token) return res.status(403).json({ message: "Se necesita un token" })
         else {
             const Btoken = token.slice(7, 999)
@@ -84,8 +85,8 @@ export const isConejo = async(req, res, next) => {
 export const verificado = async(req, res, next) => {
 
     const email = await User.findOne({ email: req.body.email }, { password: 0 })
-    if (email == null) return res.status(404).json({ messaje: "el correo no existe" })
-    if (!email.verify) return res.status(400).json({ message: "el correo no esta verificado" })
+    if (email == null) return res.status(418).json({ message: "el correo no existe" })
+    if (!email.verify) return res.status(403).json({ message: "el correo no esta verificado" })
 
     next();
 

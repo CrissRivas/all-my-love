@@ -17,10 +17,10 @@ export const createProduct = async(req, res) => {
 
         const newArtista = await Artista.findByIdAndUpdate(user.artista, artista, { new: true })
 
-        res.status(201).json(productSaved)
+        return res.status(201).json(productSaved)
 
     } catch (error) {
-        res.status(401).json(error)
+        return res.status(401).json(error)
     }
 }
 
@@ -29,10 +29,10 @@ export const getProducts = async(req, res) => {
 
         const products = await Product.find()
 
-        res.json(products)
+        return res.status(200).json(products)
 
     } catch (error) {
-        res.status(401).json({ message: "sucedio algo inesperado, intente despues." })
+        return res.status(401).json({ message: "sucedio algo inesperado, intente despues." })
     }
 }
 export const getProductByName = async(req, res) => {
@@ -40,14 +40,14 @@ export const getProductByName = async(req, res) => {
 
         const producto = await Product.findOne({ nombreId: req.params.productName })
         if (producto == null) {
-            res.status(404).json({ message: "El cómic ha sido eliminado de la faz de la tierra o nunca existio." })
+            return res.status(404).json({ message: "El cómic ha sido eliminado de la faz de la tierra o nunca existio." })
         } else {
-            res.status(201).json(producto)
+            return res.status(201).json(producto)
         }
 
 
     } catch (error) {
-        res.status(400).json(error)
+        return res.status(400).json(error)
 
     }
 }

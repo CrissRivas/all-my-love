@@ -44,37 +44,52 @@ export const signUp = async(req, res) => {
         from: "'Autómata errante' <hola@automataerrante.com>",
         to: email,
         subject: "verificacion de correo",
-        text: "http://localhost:4000/api/auth/signup/" + savedUser._id
+        text: "http://localhost:4200/correo/" + savedUser._id
     })
 
 
-    res.status(200).json({ message: "Todo cool" })
+    res.status(200).json({ message: "Se ha enviado un mensaje a tu correo" })
 }
 
 export const signIn = async(req, res) => {
-    const { username, email, password, roles } = req.body;
-    const userFound = await User.findOne({ email: req.body.email }).populate("roles");
-    const matchPassword = await User.comparePassword(req.body.password, userFound.password)
+    try {
 
-    if (!matchPassword) return res.status(401).json({ token: null, message: "Contraseña invalida" })
-    const token = jwt.sign({ id: userFound._id }, config.SECRET, {
-        expiresIn: 86400
-    })
-    res.json({ token })
+        const { username, email, password, roles } = req.body;
+        const userFound = await User.findOne({ email: req.body.email }).populate("roles");
+
+        if (!!userFound) {
+            const matchPassword = await User.comparePassword(req.body.password, userFound.password)
+
+            if (!matchPassword) { return res.status(400).json({ token: null, message: "Contraseña invalida" }) } else {
+                const token = jwt.sign({ id: userFound._id }, config.SECRET, {
+                    expiresIn: 86400
+                })
+                return res.status(200).json({ token })
+            }
+        } else {
+            return res.status(400).json({ token: null, message: "Correo invalido" })
+        }
+
+
+    } catch (error) {
+
+        res.status(401).json({ token: null, message: "Algo extraño sucedio" })
+    }
 }
 
 export const verifyEmail = async(req, res) => {
     try {
-        const token = req.params.userPass;
-        const user = await User.findById(token)
-        if (!user) return res.status(404).json({ message: 'Usuario no encontrado' })
-        else {
+        const id = req.params.userPass;
+        console.log(id);
+        const user = await User.findById(id, { password: 0 })
+        console.log(user);
+        if (!user) { return res.status(404).json({ msg: 'Usuario no encontrado', go: false }) } else {
             user.verify = true
-            await User.findByIdAndUpdate(token, user, { new: true })
-            res.status(200).json({ message: "Usuario verificado con exito" })
+            await User.findByIdAndUpdate(id, user, { new: true })
+            res.status(200).json({ msg: "Usuario verificado con exito", go: true })
         }
     } catch (error) {
-        return res.status(400).json({ message: 'Sucedio algo paranormal, consulte con soporte' })
+        return res.status(400).json({ msg: 'Sucedio algo paranormal, consulte con soporte', go: false })
     }
 
 
